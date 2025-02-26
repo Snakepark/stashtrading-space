@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment Dashboard | Wealth Portal</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #4f46e5;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f1f5f9;
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar {
+            background: white;
+            padding: 1.5rem;
+            height: 100vh;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            border-radius: 0.5rem;
+            color: var(--dark);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover {
+            background: var(--light);
+            color: var(--primary);
+        }
+
+        .main-content {
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .wallet-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .wallet-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .wallet-card h3 {
+            color: #64748b;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .wallet-amount {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .package-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .package-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .package-title {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .package-detail {
+            display: flex;
+            justify-content: space-between;
+            margin: 0.75rem 0;
+            color: var(--dark);
+        }
+
+        .buy-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: opacity 0.3s ease;
+        }
+
+        .buy-btn:hover {
+            opacity: 0.95;
+        }
+
+        /* Make the Recharge section responsive */
+        .recharge-container {
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+            background-color: #fff;
+            border-radius: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-top: 1rem;
+        }
+
+        .recharge-container input {
+            padding: 0.75rem;
+            width: 100%;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #ddd;
+        }
+
+        .recharge-container button {
+            padding: 0.75rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        .recharge-container button:hover {
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                height: auto;
+                padding: 1rem;
+            }
+            
+            .main-content {
+                padding: 1.5rem;
+            }
+
+            .recharge-container {
+                padding: 1rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <h2 style="margin-bottom: 2rem; color: var(--primary)">Wealth Portal</h2>
+        <a href="#" class="nav-item" id="home-link">🏠 Home</a>
+        <a href="#" class="nav-item" id="recharge-link">💰 Recharge</a>
+        <a href="#" class="nav-item">📤 Withdraw</a>
+        <a href="#" class="nav-item" id="group-link">👥 Group</a>
+        <a href="#" class="nav-item">📨 Invite</a>
+    </nav>
+
+    <main class="main-content">
+        <div class="wallet-section">
+            <div class="wallet-card">
+                <h3>Profit Wallet</h3>
+                <div class="wallet-amount" id="profit-wallet">R0.00</div>
+            </div>
+            <div class="wallet-card">
+                <h3>Recharge Wallet</h3>
+                <div class="wallet-amount" id="recharge-wallet">R0.00</div>
+            </div>
+        </div>
+
+        <div class="packages-grid">
+            <div class="package-card">
+                <h2 class="package-title">P-100</h2>
+                <div class="package-detail">
+                    <span>PRICE:</span>
+                    <span>R90</span>
+                </div>
+                <div class="package-detail">
+                    <span>Daily Return:</span>
+                    <span>R32</span>
+                </div>
+                <div class="package-detail">
+                    <span>Validity days:</span>
+                    <span>20</span>
+                </div>
+                <button class="buy-btn" data-price="90">Invest Now</button>
+            </div>
+
+            <div class="package-card">
+                <h2 class="package-title">T-200</h2>
+                <div class="package-detail">
+                    <span>PRICE:</span>
+                    <span>R300</span>
+                </div>
+                <div class="package-detail">
+                    <span>Daily Return:</span>
+                    <span>R96</span>
+                </div>
+                <div class="package-detail">
+                    <span>Validity days:</span>
+                    <span>30</span>
+                </div>
+                <button class="buy-btn" data-price="300">Invest Now</button>
+            </div>
+
+            <div class="package-card">
+                <h2 class="package-title">M-500</h2>
+                <div class="package-detail">
+                    <span>PRICE:</span>
+                    <span>R750</span>
+                </div>
+                <div class="package-detail">
+                    <span>Daily Return:</span>
+                    <span>R250</span>
+                </div>
+                <div class="package-detail">
+                    <span>Validity days:</span>
+                    <span>35</span>
+                </div>
+                <button class="buy-btn" data-price="750">Invest Now</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Initialize wallet balances
+        let profitWallet = 0.00;
+        let rechargeWallet = 0.00;
+
+        // Load wallet balances from local storage
+        if (localStorage.getItem('profitWallet')) {
+            profitWallet = parseFloat(localStorage.getItem('profitWallet'));
+        }
+        if (localStorage.getItem('rechargeWallet')) {
+            rechargeWallet = parseFloat(localStorage.getItem('rechargeWallet'));
+        }
+
+        // Update wallet balances on page load
+        document.getElementById('profit-wallet').textContent = `R${profitWallet.toFixed(2)}`;
+        document.getElementById('recharge-wallet').textContent = `R${rechargeWallet.toFixed(2)}`;
+
+        // Add event listener to recharge link
+        document.getElementById('recharge-link').addEventListener('click', () => {
+            // Create a new container for the recharge details
+            const rechargeDetails = document.createElement('div');
+            rechargeDetails.classList.add('recharge-container');
+
+            // Generate a random reference number
+            const referenceNumber = Math.floor(1000 + Math.random() * 9000);
+
+            // Set the content of the recharge details
+            rechargeDetails.innerHTML = `
+                <h3>Recharge Details</h3>
+                <p><strong>Own Amount</strong></p>
+                <p><strong>Transfer Type:</strong> Bank</p>
+                <p><strong>Bank Name:</strong> Tymebank</p>
+                <p><strong>Account No:</strong> 51104524563</p>
+                <p><strong>Reference:</strong> ${referenceNumber}</p>
+                <p><strong>Enter Amount:</strong></p>
+                <input type="number" id="recharge-amount" placeholder="Enter amount">
+                <button id="confirm-payment">Confirm Payment</button>
+            `;
+
+            // Append the recharge details to the main content
+            const mainContent = document.querySelector('.main-content');
+            mainContent.innerHTML = '';  // Clear current content
+            mainContent.appendChild(rechargeDetails);
+
+            // Add event listener to the Confirm Payment button
+            document.getElementById('confirm-payment').addEventListener('click', () => {
+                const rechargeAmount = parseFloat(document.getElementById('recharge-amount').value);
+                if (!isNaN(rechargeAmount) && rechargeAmount > 0) {
+                    rechargeWallet += rechargeAmount;
+                    localStorage.setItem('rechargeWallet', rechargeWallet.toString());
+                    document.getElementById('recharge-wallet').textContent = `R${rechargeWallet.toFixed(2)}`;
+                    alert('Recharge successful!');
+                } else {
+                    alert('Please enter a valid amount.');
+                }
+            });
+        });
+
+        // Add event listener to the "Home" link
+        document.getElementById('home-link').addEventListener('click', () => {
+            location.reload();  // Reload the page to go back to the main menu
+        });
+
+        // Add event listener to the "Group" link
+        document.getElementById('group-link').addEventListener('click', () => {
+            window.location.href = "https://chat.whatsapp.com/LZeDpHpdqa00mnxpCBWUyO";  // Redirect to WhatsApp group
+        });
+    </script>
+</body>
+</html>
